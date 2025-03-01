@@ -53,4 +53,32 @@ assistant. And even better, because google assistant has only a small number of
 things it can outomate (mostly google services), whereas with tasker, your
 imagination is the limit
 
+---
+02-28 @ 21:16
 
+Ok, i read about the mcp specification and it seems to encompass a communication
+protocol, a server specification, and client specifications.
+
+for this project the server can be a project that implements all the atomic
+tasks, and a simple http server can be also made with tasker.
+
+now the question is how do we implement the client and host. i see two options.
+
+1. create a simple application in kotlin to run a simple agentic loop and use
+the kotlin sdk to implement a client that will call the tasker server.
+the pros is that theres already a kotlin sdk and if the http server is setup
+correctly it should work out of the box? the con is that i need to setup and
+build an android app! probably not too bad though claude should help me with
+this but i'd still spend time learning android app development
+
+2. create a tasker ui for the agentic loop and interact with the server.
+would need to make sure that the client project and the server projects are
+completely separate. pro is that its just a tasker project that others can
+import, cons creating a complex tasker project is no easy task and i think this
+would take at least the same amount of time as building the server project.
+
+3. if all goes sour and i only have time to create the server project i think
+the worst option is not implementing any client and leaving it at that
+meaning the client is left for users to implement.
+I dont think a submission without any functioning demo is going to win any
+prizes though :(
