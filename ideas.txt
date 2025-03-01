@@ -16,3 +16,41 @@ their phones.
 
 driving test simulator with ai generated test scenarios
 
+!tasker mcp server
+
+why?
+
+tasker is an automation tool for Android. It allows you to call phone actions
+like get contacts, interact with the screen, read screen contents and so on.
+
+It is very powerful as in it allow you to basically create applications without
+having to write an apk for it.
+
+The problem is that creating 'tasks' in tasker is time consuming because its
+done through a phone ui. And 'programming' the task as code is not a easy fit
+eitebr because it uses a custom xml format that is very hard to work with.
+
+So, my idea is to create a big tasker project that provides atomic tasks for
+most of the existing tasker actions and provide an mcp server so that llms can
+create applications on the fly with just the action definitions. without needing
+to manually create tasks using the tasker ui.
+
+I a sense, tasker is an api for android automation
+
+Writing an application for phone automation in:
+
+lang,                 power,          simplicity
+Kotlin or Java,       highest,        lowest
+tasker,               high,           medium *
+tasker mcp,           medium**,       easy***
+
+*graphical ui is time consuming
+** it will never be possible to implement the full feature set of tasker on the mcp server (unless we provide some meta action that can create actions in tasker??, out of scope in this hackathon version)
+*** text based instructions. even better, voice instructions***
+
+I think that if implemented correctly it will be a sort of open source google
+assistant. And even better, because google assistant has only a small number of
+things it can outomate (mostly google services), whereas with tasker, your
+imagination is the limit
+
+
