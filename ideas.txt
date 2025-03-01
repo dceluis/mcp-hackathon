@@ -1,0 +1,18 @@
+piano tutor?
+
+kid todo app
+
+deals monitored by an agent using mcp
+
+auto llms.txt
+
+auto end-to-end testing applications through mcp
+
+a text based game of any sorts that battles llms through some sort of
+intelligence battle.
+
+an app that gives (ai) instructions to grandpas about how to do important things on
+their phones.
+
+driving test simulator with ai generated test scenarios
+
