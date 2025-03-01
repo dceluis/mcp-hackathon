@@ -89,12 +89,12 @@ app = Server(SERVER_NAME)
 sse = SseServerTransport("/messages/")
 
 @app.list_tools()
-async def list_tools() -> list[types.Tool]:
+async def handle_list_tools() -> list[types.Tool]:
   return list(TOOLS)
 
 #In call tool:
 @app.call_tool()
-async def call_tool(
+async def handle_call_tool(
     name: str,
     arguments: dict
 ) -> List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:

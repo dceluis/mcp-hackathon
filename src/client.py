@@ -7,6 +7,8 @@ from typing import Optional, Union
 from litellm import completion
 import traceback
 
+from prompt_toolkit import PromptSession
+
 class Client:
     def __init__(self, endpoint, port):
         self.endpoint = endpoint
@@ -77,8 +79,9 @@ async def main(endpoint, port):
     await client.initialize()
 
     async def chat_loop():
+        prompt_session = PromptSession()
         while True:
-            prompt_text = input("> ")
+            prompt_text = await prompt_session.prompt_async("> ")
             if prompt_text.lower() in ["exit", "quit"]:
                 break
             try:

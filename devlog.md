@@ -168,3 +168,10 @@ seems that it would also fire and forget a task. So i would still need to
 include a callback mechanism anyways. hmmm it doesnt sound like a bad idea but i
 will stick to my plan for now.
 
+---
+02-29 @ 15:09
+
+wait, some user in teb hackathon chat posted that they added their tools to their custom gpt?
+this would simplify the development so much
+
+are there any ai other clients that integrate with mcp servers???
