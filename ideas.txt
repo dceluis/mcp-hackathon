@@ -90,3 +90,15 @@ prizes though :(
 ooookk, so to implement a proper mcp server there is also sdks involves its not
 just a matter of conforming to a response schema sooo this might be harder than
 i thought. still there's always termux which can call tasker tasks i think? 
+
+---
+02-28 @ 21:37
+
+so gemini 2 talked me out of implementing the server in tasker lol. its too
+complex and most probably impossible because tasker does not have enough tools
+to maintain state, persistent connections, two way communication, its too slow
+etc etc.
+
+we need a bridge that can still call tasker functions and read the tasker responses. and
+communicate with the clients. i am going to try termux with the python mcp
+library if this does not work then id say i need to pivot to another submission
