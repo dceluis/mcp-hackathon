@@ -114,3 +114,11 @@ so i setup the termux env and sshd to it. testing the server
 installing termux dependencies and getting the whole thing to run is a nightmare
 i had to install rust and python and pip is still installing the depenndencies
 but i still have hope
+
+---
+02-29 @ 01:25
+
+so at last i could create a server that runs on termux and a sample client that
+i can call from my pc that will connect to termux and run a tool. right now its
+just printing a toast but itss something!
+
