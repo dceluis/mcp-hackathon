@@ -102,3 +102,15 @@ etc etc.
 we need a bridge that can still call tasker functions and read the tasker responses. and
 communicate with the clients. i am going to try termux with the python mcp
 library if this does not work then id say i need to pivot to another submission
+
+---
+02-28 @ 22:14
+
+so i setup the termux env and sshd to it. testing the server
+
+---
+02-28 @ 23:57
+
+installing termux dependencies and getting the whole thing to run is a nightmare
+i had to install rust and python and pip is still installing the depenndencies
+but i still have hope
