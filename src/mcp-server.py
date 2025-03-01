@@ -61,6 +61,17 @@ TOOLS = [
         inputSchema={"type": "object", "properties": {}}
     ),
     types.Tool(
+        name="tasker_flash_text",
+        description="Displays a short message using tasker Flash action.",
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "Text": {"type": "string", "description": "The text to show on the user phone."}
+            },
+            "required": ["text"]
+        }
+    ),
+    types.Tool(
         name="tasker_send_sms",
         description="Sends an SMS message.",
         inputSchema={
@@ -95,6 +106,9 @@ async def call_tool(
     elif name == "tasker_toggle_wifi":
         filtered_arguments = { key: val for key, val in arguments.items() if key in ["state"] }
         return await run_tasker_task("MCP Toggle Wifi", filtered_arguments)
+    elif name == "tasker_flash_text":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in ["text"] }
+        return await run_tasker_task("MCP Flash text", filtered_arguments)
     elif name == "tasker_toggle_torch":
         filtered_arguments = { key: val for key, val in arguments.items() if key in ["state"] }
         return await run_tasker_task("MCP Toggle Flashlight", filtered_arguments)
@@ -123,7 +137,7 @@ async def run_tasker_task(task_name: str, parameters: dict[str, str]) ->  List[U
     for key, value in parameters.items():
         command.append(f"--{key}=\"{value}\"")
 
-    logger.debug(f"Running command: {' '.join(command)}")
+    logger.info(f"Running command: {' '.join(command)}")
 
     process = await asyncio.create_subprocess_exec(
         *command,

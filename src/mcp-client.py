@@ -10,7 +10,7 @@ async def main(endpoint, port):
             await session.initialize()
 
             try:
-                result = await session.call_tool("tasker_toggle_torch", { "state": "on" })
+                result = await session.call_tool("tasker_toggle_torch", { "state": "off" })
                 print(f"Tool call result: {result}")
 
             except Exception as e:
