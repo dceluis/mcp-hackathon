@@ -148,3 +148,23 @@ so on.
 
 Instead, you can create a tasker http web server with an endpoint that will
 run  a task and return with the response. I will be implementing it this way.
+
+---
+02-29 @ 14:55
+
+https://www.reddit.com/r/tasker/comments/1isg6ve/dev_tasker_6413_widget_v2_remote_action_execution/
+
+SoOOO very interestingly, seems like tasker just recently added a remote action
+execution feature. It it provides an http endpoint that you need to authenticate with a firebase acct and
+a device secret token?
+
+Its nice but still thats probably too much setup for remote access when i only
+need accessing it from the server that will live on the device for now. I may
+implement my own version of tbis later. Also, running in the same wifi network
+I can access the mcp server on my device just fine, pointing to the device ip
+
+plus, i looked at the demo and i did not see any response collection so it
+seems that it would also fire and forget a task. So i would still need to
+include a callback mechanism anyways. hmmm it doesnt sound like a bad idea but i
+will stick to my plan for now.
+
