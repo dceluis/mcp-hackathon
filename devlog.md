@@ -130,3 +130,21 @@ tasker task from termux. thats exactly what i needed
 
 although it just sends the activity i still need to handle the response
 i created termux-tasker script to install to termux
+
+---
+02-29 @ 06:18
+
+I added a chat loop with Gemini 2.0 flash and tool calling.
+
+---
+02-29 @ 14:26
+
+I have been investigating better ways of calling tasks than the am method.
+
+The problem with sending an intent is that its a send and forget method. We
+would need to implement a callback listener in the mcp server get return the
+task response back. And also we would need to implement unique task run ids and
+so on.
+
+Instead, you can create a tasker http web server with an endpoint that will
+run  a task and return with the response. I will be implementing it this way.
