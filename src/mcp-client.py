@@ -10,10 +10,7 @@ async def main(endpoint, port):
             await session.initialize()
 
             try:
-                result = await session.call_tool(
-                    "tasker_run_task",
-                    {"task_name": "MCP Toggle Flashlight", "parameters": ["on"]},
-                )
+                result = await session.call_tool("tasker_toggle_torch", { "state": "on" })
                 print(f"Tool call result: {result}")
 
             except Exception as e:

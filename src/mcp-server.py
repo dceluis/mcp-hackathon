@@ -1,5 +1,5 @@
 import asyncio
-import json
+import sys
 import mcp.types as types
 from mcp.server import Server
 from mcp.server.sse import SseServerTransport
@@ -7,83 +7,123 @@ from starlette.applications import Starlette
 from starlette.routing import Route, Mount  # Import Mount
 from typing import List, Union
 import uvicorn
+import logging
 
-# --- Configuration (Load from a config file in a real implementation) ---
+# --- Configure Logging ---
+logging.basicConfig(level=logging.INFO, stream=sys.stderr,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("mcp-server")
+
 SERVER_NAME = "Tasker-MCP-Bridge"
-SERVER_PORT = 8000  # Or any available port
+SERVER_PORT = 8000
 
-# --- Tool Definitions (Hardcoded for simplicity, could be loaded from a file) ---
-TOOLS = {
-    "tasker_run_task": types.Tool(
-        name="tasker_run_task",
-        description="Run a Tasker task.",
+TOOLS = [
+    types.Tool(
+        name="tasker_get_battery_level",
+        description="Returns the current battery percentage.",
+        inputSchema={"type": "object", "properties": {}}
+    ),
+    types.Tool(
+        name="tasker_lamp_on",
+        description="Turns the bedroom lamp on.",
+        inputSchema={"type": "object", "properties": {}}
+    ),
+    types.Tool(
+        name="tasker_lamp_off",
+        description="Turns the bedroom lamp off.",
+        inputSchema={"type": "object", "properties": {}}
+    ),
+    types.Tool(
+        name="tasker_toggle_torch",
+        description="Turns flashlight on or off.",
         inputSchema={
             "type": "object",
             "properties": {
-                "task_name": {"type": "string", "description": "The name of the Tasker task to run."},
-                "parameters": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Optional parameters to pass to the Tasker task."
-                }
+                "state": {"type": "string", "enum": ["on", "off"]}
             },
-            "required": ["task_name"]
+            "required": ["state"]
         }
     ),
-     "get_variable": types.Tool( #add another tool for demonstration
-        name="get_variable",
-        description="Gets the value of a Tasker global variable.",
+    types.Tool(
+        name="tasker_toggle_wifi",
+        description="Turns WiFi on or off.",
         inputSchema={
             "type": "object",
             "properties": {
-                "variable_name": {"type": "string", "description": "The name of the Tasker global variable (e.g., '%MYVAR')."}
+                "state": {"type": "string", "enum": ["on", "off"]}
             },
-            "required": ["variable_name"]
+            "required": ["state"]
         }
-    )
-}
-
+    ),
+    types.Tool(
+        name="tasker_get_location",
+        description="Retrieves the current GPS coordinates.",
+        inputSchema={"type": "object", "properties": {}}
+    ),
+    types.Tool(
+        name="tasker_send_sms",
+        description="Sends an SMS message.",
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "number": {"type": "string", "description": "Recipient phone number."},
+                "message": {"type": "string", "description": "Message content."}
+            },
+            "required": ["number", "message"]
+        }
+    ),
+]
 
 app = Server(SERVER_NAME)
 sse = SseServerTransport("/messages/")
 
 @app.list_tools()
 async def list_tools() -> list[types.Tool]:
-  return list(TOOLS.values())
+  return list(TOOLS)
 
+#In call tool:
 @app.call_tool()
 async def call_tool(
     name: str,
     arguments: dict
-) -> List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]: # Correct return type
-    if name == "tasker_run_task":
-        task_name = arguments.get("task_name")
-        parameters = arguments.get("parameters", [])
+) -> List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:
+    logger.info(f"call_tool: name={name}, arguments={arguments}")
 
-        if not task_name:
-            raise ValueError("task_name is required")
-        return await run_tasker_task(task_name, parameters) # Correct return type
-    if name == "get_variable":
-         variable_name = arguments.get("variable_name")
-         if not variable_name:
-            raise ValueError("variable_name is required")
-         return await get_tasker_variable(variable_name) # Correct return type
+    if name == "tasker_get_battery_level":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in [] }
+        return await run_tasker_task("MCP Get Battery Level", {})
+    elif name == "tasker_toggle_wifi":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in ["state"] }
+        return await run_tasker_task("MCP Toggle Wifi", filtered_arguments)
+    elif name == "tasker_toggle_torch":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in ["state"] }
+        return await run_tasker_task("MCP Toggle Flashlight", filtered_arguments)
+    elif name == "tasker_lamp_on":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in [] }
+        return await run_tasker_task("MCP Lamp ON", filtered_arguments)
+    elif name == "tasker_lamp_off":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in [] }
+        return await run_tasker_task("MCP Lamp OFF", filtered_arguments)
+    elif name == "tasker_get_location":
+        filtered_arguments = {}
+        return await run_tasker_task("MCP Get Location", filtered_arguments)
+    elif name == "tasker_send_sms":
+        filtered_arguments = { key: val for key, val in arguments.items() if key in ["number", "message"] }
+        return await run_tasker_task("MCP Send SMS", filtered_arguments)
+    else:
+        return [types.TextContent(type="text", text=f"Error: Unknown tool: {name}")]
 
-    raise ValueError(f"Unknown tool: {name}")
-
-
-
-async def run_tasker_task(task_name: str, parameters: list[str]) ->  List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:
+async def run_tasker_task(task_name: str, parameters: dict[str, str]) ->  List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:
     """Sends an intent to Tasker to run a task."""
-    #This is a placeholder - you will need a way to send intents!
 
     command = [
-      "termux-toast", # Using termux-toast as a placeholder for intent sending
-       task_name
+      "python", "termux-tasker", task_name
     ]
-    #add parameters to command
-    for p in parameters:
-      command.append(p)
+
+    for key, value in parameters.items():
+        command.append(f"--{key}=\"{value}\"")
+
+    logger.debug(f"Running command: {' '.join(command)}")
 
     process = await asyncio.create_subprocess_exec(
         *command,
@@ -91,19 +131,17 @@ async def run_tasker_task(task_name: str, parameters: list[str]) ->  List[Union[
         stderr=asyncio.subprocess.PIPE,
     )
 
-    _, stderr = await process.communicate() #stdout is not used
+    stdout, stderr = await process.communicate()
 
     if process.returncode != 0:
-        #Error handling: return an error result to MCP Client
-        return [types.TextContent(type="text", text=f"Error running Tasker task: {stderr.decode()}")]
+        error_message = f"Error running Tasker task: {stderr.decode()}"
+        logger.error(error_message)
+        return [types.TextContent(type="text", text=error_message)]
 
-    #Success:
-    return [types.TextContent(type="text", text="Tasker task executed successfully.")]
+    result_message = f"Tasker task executed successfully.  Output: {stdout.decode()}"
+    logger.info(result_message)
 
-async def get_tasker_variable(variable_name:str) ->  List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:
-  #use perform task and %par1 as input, then return as output
-  result = await run_tasker_task("Get Global Variable", [variable_name])
-  return result
+    return [types.TextContent(type="text", text=result_message)]
 
 async def handle_sse(request):
     async with sse.connect_sse(request.scope, request.receive, request._send) as streams:

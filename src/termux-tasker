@@ -1,3 +1,30 @@
-#!/bin/sh
+#!/usr/bin/env python3
+import sys
+import subprocess
 
-am broadcast --user 0 -a tasker.mcp-run-task par1 $1 -e par2 $2
+params = []
+task_name = ""
+
+# Shift off the script name argument
+script_args = sys.argv[1:]
+
+if not script_args:
+    print("Usage: termux-tasker <task_name> [--param_name=param_value ...]")
+    sys.exit(1)
+
+task_name = script_args[0]
+params_args = script_args[1:]
+
+for arg in params_args:
+    if arg.startswith("--") and "=" in arg:
+        param_name, param_value = arg[2:].split("=", 1)
+        params.append(f"-e {param_name} \"{param_value}\"")
+    else:
+        print(f"Warning: Unknown parameter format: {arg}")
+
+params_str = " ".join(params)
+
+command = f"am broadcast --user 0 -a tasker.mcp-run-task -e task_name \"{task_name}\" {params_str}"
+
+print(command)
+subprocess.run(command, shell=True, check=False)
