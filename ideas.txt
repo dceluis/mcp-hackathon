@@ -82,3 +82,11 @@ the worst option is not implementing any client and leaving it at that
 meaning the client is left for users to implement.
 I dont think a submission without any functioning demo is going to win any
 prizes though :(
+
+
+---
+02-28 @ 21:24
+
+ooookk, so to implement a proper mcp server there is also sdks involves its not
+just a matter of conforming to a response schema sooo this might be harder than
+i thought. still there's always termux which can call tasker tasks i think? 
