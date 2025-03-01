@@ -122,3 +122,11 @@ so at last i could create a server that runs on termux and a sample client that
 i can call from my pc that will connect to termux and run a tool. right now its
 just printing a toast but itss something!
 
+---
+02-29 @ 02:10
+
+I found (this)[https://www.reddit.com/r/tasker/comments/17ygxvq/is_there_a_way_you_call_a_tasker_task_from_termux/] page that says how to run 
+tasker task from termux. thats exactly what i needed
+
+although it just sends the activity i still need to handle the response
+i created termux-tasker script to install to termux
