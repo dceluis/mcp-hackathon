@@ -67,7 +67,7 @@ TOOLS = [
         inputSchema={
             "type": "object",
             "properties": {
-                "Text": {"type": "string", "description": "The text to show on the user phone."}
+                "text": {"type": "string", "description": "The text to show on the user phone."}
             },
             "required": ["text"]
         }
