@@ -116,28 +116,28 @@ i had to install rust and python and pip is still installing the depenndencies
 but i still have hope
 
 ---
-02-29 @ 01:25
+03-01 @ 01:25
 
 so at last i could create a server that runs on termux and a sample client that
 i can call from my pc that will connect to termux and run a tool. right now its
 just printing a toast but itss something!
 
 ---
-02-29 @ 02:10
+03-01 @ 02:10
 
-I found (this)[https://www.reddit.com/r/tasker/comments/17ygxvq/is_there_a_way_you_call_a_tasker_task_from_termux/] page that says how to run 
+I found [this](https://www.reddit.com/r/tasker/comments/17ygxvq/is_there_a_way_you_call_a_tasker_task_from_termux/) page that says how to run 
 tasker task from termux. thats exactly what i needed
 
 although it just sends the activity i still need to handle the response
 i created termux-tasker script to install to termux
 
 ---
-02-29 @ 06:18
+03-01 @ 06:18
 
 I added a chat loop with Gemini 2.0 flash and tool calling.
 
 ---
-02-29 @ 14:26
+03-01 @ 14:26
 
 I have been investigating better ways of calling tasks than the am method.
 
@@ -150,9 +150,9 @@ Instead, you can create a tasker http web server with an endpoint that will
 run  a task and return with the response. I will be implementing it this way.
 
 ---
-02-29 @ 14:55
+03-01 @ 14:55
 
-https://www.reddit.com/r/tasker/comments/1isg6ve/dev_tasker_6413_widget_v2_remote_action_execution/
+[Tasker RCE](https://www.reddit.com/r/tasker/comments/1isg6ve/dev_tasker_6413_widget_v2_remote_action_execution/)
 
 SoOOO very interestingly, seems like tasker just recently added a remote action
 execution feature. It it provides an http endpoint that you need to authenticate with a firebase acct and
@@ -169,9 +169,20 @@ include a callback mechanism anyways. hmmm it doesnt sound like a bad idea but i
 will stick to my plan for now.
 
 ---
-02-29 @ 15:09
+03-01 @ 15:09
 
 wait, some user in teb hackathon chat posted that they added their tools to their custom gpt?
 this would simplify the development so much
 
 are there any ai other clients that integrate with mcp servers???
+
+---
+03-01 @ 13:12
+
+I cant believe how long it took me to setup LibreChat but the good news is that the mcp
+server is working good!! I can interact with it through any model and it just works.
+
+![image](https://github.com/user-attachments/assets/77a8ef01-0321-49c1-8b26-1d93224a7166)
+
+Now what I will spend the rest of the day adding as many tasks as I can to the tasker mcp project,
+most importantly making the screenshot tool work.
