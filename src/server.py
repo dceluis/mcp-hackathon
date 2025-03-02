@@ -19,63 +19,71 @@ SERVER_NAME = "Tasker-MCP-Bridge"
 SERVER_PORT = 8000
 
 TOOLS = [
-    types.Tool(
-        name="tasker_get_battery_level",
-        description="Returns the current battery percentage.",
-        inputSchema={"type": "object", "properties": {}}
-    ),
-    types.Tool(
-        name="tasker_lamp_on",
-        description="Turns the bedroom lamp on.",
-        inputSchema={"type": "object", "properties": {}}
-    ),
-    types.Tool(
-        name="tasker_lamp_off",
-        description="Turns the bedroom lamp off.",
-        inputSchema={"type": "object", "properties": {}}
-    ),
-    types.Tool(
-        name="tasker_toggle_torch",
-        description="Turns flashlight on or off.",
-        inputSchema={
+    {
+        "tasker_name": "MCP Get Battery Level",
+        "name": "tasker_get_battery_level",
+        "description": "Returns the current battery percentage.",
+        "inputSchema": {"type": "object", "properties": {}}
+    },
+    {
+        "tasker_name": "MCP Lamp ON",
+        "name": "tasker_lamp_on",
+        "description": "Turns the bedroom lamp on.",
+        "inputSchema": {"type": "object", "properties": {}}
+    },
+    {
+        "tasker_name": "MCP Lamp OFF",
+        "name": "tasker_lamp_off",
+        "description": "Turns the bedroom lamp off.",
+        "inputSchema": {"type": "object", "properties": {}}
+    },
+    {
+        "tasker_name": "MCP Toggle Flashlight",
+        "name": "tasker_toggle_torch",
+        "description": "Turns flashlight on or off.",
+        "inputSchema": {
             "type": "object",
             "properties": {
                 "state": {"type": "string", "enum": ["on", "off"]}
             },
             "required": ["state"]
         }
-    ),
-    types.Tool(
-        name="tasker_toggle_wifi",
-        description="Turns WiFi on or off.",
-        inputSchema={
+    },
+    {
+        "tasker_name": "MCP Toggle Wifi",
+        "name": "tasker_toggle_wifi",
+        "description": "Turns WiFi on or off.",
+        "inputSchema": {
             "type": "object",
             "properties": {
                 "state": {"type": "string", "enum": ["on", "off"]}
             },
             "required": ["state"]
         }
-    ),
-    types.Tool(
-        name="tasker_get_location",
-        description="Retrieves the current GPS coordinates.",
-        inputSchema={"type": "object", "properties": {}}
-    ),
-    types.Tool(
-        name="tasker_flash_text",
-        description="Displays a short message using tasker Flash action.",
-        inputSchema={
+    },
+    {
+        "tasker_name": "MCP Get Location",
+        "name": "tasker_get_location",
+        "description": "Retrieves the current GPS coordinates.",
+        "inputSchema": {"type": "object", "properties": {}}
+    },
+    {
+        "tasker_name": "MCP Flash text",
+        "name": "tasker_flash_text",
+        "description": "Displays a short message using tasker Flash action.",
+        "inputSchema": {
             "type": "object",
             "properties": {
                 "text": {"type": "string", "description": "The text to show on the user phone."}
             },
             "required": ["text"]
         }
-    ),
-    types.Tool(
-        name="tasker_send_sms",
-        description="Sends an SMS message.",
-        inputSchema={
+    },
+    {
+        "tasker_name": "MCP Send SMS",
+        "name": "tasker_send_sms",
+        "description": "Sends an SMS message.",
+        "inputSchema": {
             "type": "object",
             "properties": {
                 "number": {"type": "string", "description": "Recipient phone number."},
@@ -83,7 +91,13 @@ TOOLS = [
             },
             "required": ["number", "message"]
         }
-    ),
+    },
+    {
+        "tasker_name": "MCP Screenshot",
+        "name": "tasker_screenshot",
+        "description": "Takes a screenshot of the current screen on the phone.",
+        "inputSchema": {"type": "object", "properties": {}}
+    },
 ]
 
 app = Server(SERVER_NAME)
@@ -91,7 +105,7 @@ sse = SseServerTransport("/messages/")
 
 @app.list_tools()
 async def handle_list_tools() -> list[types.Tool]:
-  return list(TOOLS)
+    return [types.Tool(**tool) for tool in TOOLS]
 
 #In call tool:
 @app.call_tool()
@@ -101,30 +115,13 @@ async def handle_call_tool(
 ) -> List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:
     logger.info(f"call_tool: name={name}, arguments={arguments}")
 
-    if name == "tasker_get_battery_level":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in [] }
-        return await run_tasker_task("MCP Get Battery Level", {})
-    elif name == "tasker_toggle_wifi":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in ["state"] }
-        return await run_tasker_task("MCP Toggle Wifi", filtered_arguments)
-    elif name == "tasker_flash_text":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in ["text"] }
-        return await run_tasker_task("MCP Flash text", filtered_arguments)
-    elif name == "tasker_toggle_torch":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in ["state"] }
-        return await run_tasker_task("MCP Toggle Flashlight", filtered_arguments)
-    elif name == "tasker_lamp_on":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in [] }
-        return await run_tasker_task("MCP Lamp ON", filtered_arguments)
-    elif name == "tasker_lamp_off":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in [] }
-        return await run_tasker_task("MCP Lamp OFF", filtered_arguments)
-    elif name == "tasker_get_location":
-        filtered_arguments = {}
-        return await run_tasker_task("MCP Get Location", filtered_arguments)
-    elif name == "tasker_send_sms":
-        filtered_arguments = { key: val for key, val in arguments.items() if key in ["number", "message"] }
-        return await run_tasker_task("MCP Send SMS", filtered_arguments)
+    tool = next((t for t in TOOLS if t['name'] == name), None)
+
+    if tool is not None:
+        allowed_arguments = tool['inputSchema']['properties'].keys()
+        filtered_arguments = { key: val for key, val in arguments.items() if key in allowed_arguments }
+
+        return await run_tasker_task(tool['tasker_name'], filtered_arguments)
     else:
         return [types.TextContent(type="text", text=f"Error: Unknown tool: {name}")]
 
@@ -161,7 +158,10 @@ async def run_tasker_task(name: str, arguments: dict[str, str]) ->  List[Union[t
         logger.error(error_message)
         return [types.TextContent(type="text", text=error_message)]
 
-    result_message = f"Tasker task executed successfully. Output: {stdout.decode()}"
+    result_message = f"Tasker task executed successfully."
+
+    if stdout:
+        result_message += f" Output: {stdout.decode()}"
     logger.info(result_message)
 
     return [types.TextContent(type="text", text=result_message)]

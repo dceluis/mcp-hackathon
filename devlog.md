@@ -177,7 +177,7 @@ this would simplify the development so much
 are there any ai other clients that integrate with mcp servers???
 
 ---
-03-01 @ 13:12
+03-01 @ 19:14
 
 I cant believe how long it took me to setup LibreChat but the good news is that the mcp
 server is working good!! I can interact with it through any model and it just works.
@@ -186,3 +186,22 @@ server is working good!! I can interact with it through any model and it just wo
 
 Now what I will spend the rest of the day adding as many tasks as I can to the tasker mcp project,
 most importantly making the screenshot tool work.
+
+---
+03-02 @ 00:05
+
+So, I investigated how to render or work with images as results of tool calls. AFAIK 
+this is not supported by clients like libreChat and others.
+
+So probably if i want to do this i need to use smolagents or cook up my own
+image-aware ReAct loop. Probably package this on a simple web server too so
+that i can access it from my phone through local LAN for demo purposes.
+
+I should probably start recording and editing the small use cases demo.
+
+Ideally i want to record 3 demos. one for simple tasks like clipboard, info,
+alarms, etc. aNother one for medium more interesting tasks or combination of
+tasks like playing songs or whatever i come up with later. and finally the demo
+that would be awesome to have is a visual, multi step navigation demo which i
+need image observation for. So, I have 2 demos to record and hopefully i still
+have time to tackle the ReAct app with images.
