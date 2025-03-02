@@ -1,6 +1,10 @@
-##
+## Instructions
 
-Instructions
+1. Install termux on the phone
+
+2. Run setup-termux.sh
+
+3. Copy server/server.py and server/requirements.txt
 
 For screen grabbing
 ```

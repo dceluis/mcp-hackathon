@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+## THIS FILE IS NOT USED ANYMORE, AS I SWITCHED TO CALL TASKS FROM THE TASKER HTTP INTERFACE
+
 import sys
 import subprocess
 
