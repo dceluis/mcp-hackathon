@@ -6,9 +6,15 @@
 
 3. Copy server/server.py and server/requirements.txt
 
-For screen grabbing
+4. Setup the tasker.
+
+4.1 Install tasker
+
+4.2 Import and enable mcp.prj.xml
+
+4.3 For screen grabbing
 ```
 adb shell appops set net.dinglisch.android.taskerm PROJECT_MEDIA allow
 ```
 
-Import the project to tasker
+4.4 For music playback install autoinput
