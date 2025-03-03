@@ -205,3 +205,24 @@ tasks like playing songs or whatever i come up with later. and finally the demo
 that would be awesome to have is a visual, multi step navigation demo which i
 need image observation for. So, I have 2 demos to record and hopefully i still
 have time to tackle the ReAct app with images.
+
+---
+03-02 @ 11:03
+
+So yesterday was an ok day for brainstorming but i did not really get much done
+in terms of coding. I created a small draft of myy presentation but i should
+come up with more compelling demo cases and a shorter presentation.
+
+---
+03-02 @ 19:38
+
+Running out of time but i have a good draft of the demo i want to make. I will
+present a comparison video showing gemini assistant and this assistant. Showing
+that its just as good an even better. I Just got the print task working and I
+think it will make for a great show..
+
+---
+03-02 @ 20:31
+
+I think I have enough actions for a good demo. I will start recording them and
+finishing the script
