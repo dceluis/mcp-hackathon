@@ -180,7 +180,7 @@ TOOLS = [
                     "description": "The text to set the phone clipboard to.",
                 }
             },
-            "required": ["level"]
+            "required": ["text"]
         }
     },
     {
@@ -225,7 +225,7 @@ Otherwise, the same results will show up every time."""
             "properties": {
                 "time": {"type": "string", "description": "Time in 24:00 format"}
             },
-            "required": ["text"]
+            "required": ["time"]
         }
     },
     {

@@ -75,15 +75,15 @@ The server (`server/server.py`) defines a variety of tools that map to Tasker ta
 | `tasker_get_contacts`      | Retrieves phone contacts.                        | None                                                  |
 | `tasker_list_files`        | Lists files in the Documents folder.             | None                                                  |
 | `tasker_screenshot`        | Takes a screenshot of the current screen.        | None                                                  |
-| `tasker_browse_url`        | Opens a URL in the default browser.              | None (URL handling TBD in Tasker setup)               |
+| `tasker_browse_url`        | Opens a URL in the default browser.              | None
 | `tasker_get_volume`        | Retrieves current media volume level.            | None                                                  |
 | `tasker_set_volume`        | Sets media volume level (0-15).                  | `level`: Volume (e.g., `"15"`, `"max"`, `"min"`) (required) |
 | `tasker_get_clipboard`     | Retrieves current clipboard text.                | None                                                  |
-| `tasker_set_clipboard`     | Sets clipboard text.                             | `text`: Text to set (required, note: schema lists `level`, likely a typo) |
+| `tasker_set_clipboard`     | Sets clipboard text.                             | `text`: Text to set (required) |
 | `tasker_play_music`        | Plays music on YouTube Music.                    | `query`: Search term for music (required)             |
 | `tasker_take_photo`        | Takes a photo with the camera.                   | None                                                  |
 | `tasker_print`             | Prints a document.                               | `path`: Path to document (required)                   |
-| `tasker_set_alarm`         | Sets an alarm.                                   | `time`: Time in 24:00 format (required, note: schema lists `text`, likely a typo) |
+| `tasker_set_alarm`         | Sets an alarm.                                   | `time`: Time in 24:00 format (required) |
 | `tasker_create_google_task`| Creates a Google Tasks entry.                    | `text`: Task content (required)                       |
 
 ### Notes
