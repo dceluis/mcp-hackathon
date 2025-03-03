@@ -139,7 +139,16 @@ TOOLS = [
         "tasker_name": "MCP Browse URL",
         "name": "tasker_browse_url",
         "description": "Opens a URL in the default browser on the phone.",
-        "inputSchema": {"type": "object", "properties": {}}
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "The URL to open in the browser."
+                }
+            },
+            "required": ["url"]
+        }
     },
     {
         "tasker_name": "MCP Get Volume",
