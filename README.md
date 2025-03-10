@@ -150,6 +150,12 @@ Want to add new tools or improve Phone Operator?
 3. Update `server.py` with new tools and corresponding Tasker tasks.
 4. Submit a pull request with documentation.
 
+
+> [!NOTE]
+>
+> This project was quickly put together during a [hackathon](https://x.com/pulsemcp/status/1897745362388922836).
+> For a more polished and actively developed version, please check out [https://github.com/dceluis/tasker-mcp](https://github.com/dceluis/tasker-mcp).
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
